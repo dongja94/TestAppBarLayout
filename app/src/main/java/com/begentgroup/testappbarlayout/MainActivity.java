@@ -1,13 +1,17 @@
 package com.begentgroup.testappbarlayout;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
 
+    ImageButton image;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,9 +19,18 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ElevationImageButton btn = (ElevationImageButton)findViewById(R.id.fab);
-        btn.setElevation(getResources().getDimension(R.dimen.fab_margin));
-
+        image = (ImageButton)findViewById(R.id.imagebutton_image);
+        AppBarLayout appBarLayout = (AppBarLayout)findViewById(R.id.appbar);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset < -100 && image.getVisibility() == View.VISIBLE) {
+                    image.setVisibility(View.GONE);
+                } else if (verticalOffset > -100 && image.getVisibility() == View.GONE) {
+                    image.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     @Override
